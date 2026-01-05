@@ -23,6 +23,8 @@ namespace osu_trainer
 {
     public partial class MainForm : Form
     {
+        public static MainForm Singleton { get; private set; }
+
         // Beatmap
         private string userSongsFolder = null;
 
@@ -51,6 +53,7 @@ namespace osu_trainer
 
         public MainForm()
         {
+            Singleton = this;
             Directory.SetCurrentDirectory(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
             InitializeComponent();
             Height = 493;
@@ -88,7 +91,7 @@ namespace osu_trainer
             Hotkeys.Add(Settings.HotkeyProfile4);
 
             // Init object instances
-            osuReader = new StructuredOsuMemoryReader(new("osu!.exe")); // TODO (mono): *REDACTED* mono should remember
+            osuReader = new StructuredOsuMemoryReader(new("osu!")); // TODO (mono): *REDACTED* mono should remember
             editor = new BeatmapEditor(this);
 
             // Add event handlers (observers)

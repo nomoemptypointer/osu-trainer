@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Diagnostics;
 using NAudio.Wave;
 using NAudio.Lame;
 using NAudio.Vorbis;
@@ -50,7 +48,7 @@ namespace osu_trainer
             string pitch = changePitch ? $"-pitch={semitones}" : "";
 
             Process soundstretch = new Process();
-            soundstretch.StartInfo.FileName = Path.Combine("binaries", "soundstretch.exe");
+            soundstretch.StartInfo.FileName = Path.Combine("soundstretch.exe");
             soundstretch.StartInfo.Arguments = $"\"{temp2}\" \"{temp3}\" {quick} {naa} {tempo} {pitch}";
             Console.WriteLine(soundstretch.StartInfo.Arguments);
             soundstretch.StartInfo.UseShellExecute = false;

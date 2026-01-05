@@ -6,11 +6,21 @@ namespace osu_trainer
 {
     public static class Program
     {
+#if DEBUG
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern bool AllocConsole();
+#endif
+
         public static PrivateFontCollection FontCollection { get; } = new PrivateFontCollection();
 
         [STAThread]
         public static void Main()
         {
+#if DEBUG
+            AllocConsole();
+            Console.WriteLine("+ AllocConsole");
+#endif
+
             AddFont(FontCollection, Resources.Comfortaa_Bold);
             Application.CurrentCulture = new CultureInfo("en-US", false);
 

@@ -931,10 +931,6 @@ namespace osu_trainer
                     }
                 }
             }
-            catch (UnauthorizedAccessException)
-            {
-                MessageBox.Show("Permission to write to version.txt was denied. Check your antivirus, or try running osu trainer with administrator priveledges.");
-            }
             catch (Exception e)
             {
                 MessageBox.Show("Unable to save profiles." + Environment.NewLine + Environment.NewLine + e.Message);

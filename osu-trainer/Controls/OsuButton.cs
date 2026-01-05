@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
+﻿using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
-using System.Runtime.CompilerServices;
-using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 
 namespace osu_trainer.Controls
@@ -51,7 +46,7 @@ namespace osu_trainer.Controls
         [Description("How many triangles should be visible at all times.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int TriangleCount { get; set; } = 30;
+        public int TriangleCount { get; set; } = 15;
 
         [RefreshProperties(RefreshProperties.Repaint)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -118,7 +113,7 @@ namespace osu_trainer.Controls
                 _timer = new Timer()
                 {
                     Enabled = true,
-                    Interval = 1000 / 60,
+                    Interval = 1000 / 30,
                 };
 
                 _timer.Tick += Timer_Tick;
@@ -127,6 +122,9 @@ namespace osu_trainer.Controls
 
         private void Timer_Tick(object sender, EventArgs e)
         {
+            if (!MainForm.Singleton.Focused && !MainForm.Singleton.ContainsFocus)
+                return; // Don't update triangle if the window is out of focus
+
             // Animate button canvas size
             if (_isDown && _size > _downSize)
                 _size -= 0.005f;

@@ -1,15 +1,9 @@
-using System;
-using System.Drawing;
+using FsBeatmapProcessor;
+using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
-using System.IO;
-using System.Reflection;
-using System.Resources;
 using System.Timers;
-using System.Windows.Forms;
-using FsBeatmapProcessor;
 using Timer = System.Timers.Timer;
-using System.ComponentModel;
 
 namespace osu_trainer.Controls
 {

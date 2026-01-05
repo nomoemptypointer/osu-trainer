@@ -26,6 +26,7 @@ namespace osu_trainer.Controls
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color DisabledColor { get; set; } = ColorConstants.Disabled;
 
         private bool _hover;
