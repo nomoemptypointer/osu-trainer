@@ -102,6 +102,7 @@ namespace osu_trainer
         Category("Appearance"),
         Description("Sets the color of the long part")
         ]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color BodyColor
         {
             get => bodyColor;
@@ -118,6 +119,7 @@ namespace osu_trainer
         Category("Appearance"),
         Description("Sets the stroke color of the Nipple.")
         ]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color NippleColor
         {
             get => nippleColor;
@@ -134,6 +136,7 @@ namespace osu_trainer
         Category("Appearance"),
         Description("Sets the stroke color of the Nipple when idle.")
         ]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color NippleIdleColor
         {
             get => nippleIdleColor;

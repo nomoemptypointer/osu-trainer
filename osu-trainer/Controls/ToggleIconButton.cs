@@ -98,7 +98,8 @@ namespace osu_trainer.Controls
 			}
 		}
 
-		public Image CheckedImage
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Image CheckedImage
 		{
 			get => _checkedImage;
 			set
@@ -108,7 +109,8 @@ namespace osu_trainer.Controls
 			}
 		}
 
-		public Image UncheckedImage
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Image UncheckedImage
 		{
 			get => _uncheckedImage;
 			set
