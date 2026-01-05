@@ -1,14 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
-namespace Utilities {
+namespace Utilities
+{
 	/// <summary>
 	/// A class that manages a global low level keyboard hook
 	/// </summary>
-	public class globalKeyboardHook {
+	public class GlobalKeyboardHook
+	{
 		#region Constant, Structure and Delegate Definitions
 		/// <summary>
 		/// defines the callback type for the hook
@@ -61,18 +59,18 @@ namespace Utilities {
 
 		#region Constructors and Destructors
 		/// <summary>
-		/// Initializes a new instance of the <see cref="globalKeyboardHook"/> class and installs the keyboard hook.
+		/// Initializes a new instance of the <see cref="GlobalKeyboardHook"/> class and installs the keyboard hook.
 		/// </summary>
-		public globalKeyboardHook() {
+		public GlobalKeyboardHook() {
 			hookProcDelegate = hookProc;
 			hook();
 		}
 
 		/// <summary>
 		/// Releases unmanaged resources and performs other cleanup operations before the
-		/// <see cref="globalKeyboardHook"/> is reclaimed by garbage collection and uninstalls the keyboard hook.
+		/// <see cref="GlobalKeyboardHook"/> is reclaimed by garbage collection and uninstalls the keyboard hook.
 		/// </summary>
-		~globalKeyboardHook() {
+		~GlobalKeyboardHook() {
 			unhook();
 		}
 		#endregion

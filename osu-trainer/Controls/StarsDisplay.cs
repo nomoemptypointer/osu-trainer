@@ -38,7 +38,7 @@ namespace osu_trainer.Controls
             get => gameMode;
             set
             {
-                updateIcon(gameMode = value, Enabled ? Colors.GetDifficultyColor(_stars) : Colors.Disabled);
+                updateIcon(gameMode = value, Enabled ? ColorConstants.GetDifficultyColor(_stars) : ColorConstants.Disabled);
                 Invalidate(false);
             }
         }
@@ -56,7 +56,7 @@ namespace osu_trainer.Controls
         {
             DoubleBuffered = true;
 
-            //glow = Properties.Resources.glow; TODO: Reimplement resouces
+            glow = Resources.glow;
 
             _timer = new Timer()
             {
@@ -64,7 +64,7 @@ namespace osu_trainer.Controls
             };
             _timer.Elapsed += TimerOnElapsed;
 
-            updateIcon(GameMode.osu, Enabled ? Colors.GetDifficultyColor(0) : Colors.Disabled);
+            updateIcon(GameMode.osu, Enabled ? ColorConstants.GetDifficultyColor(0) : ColorConstants.Disabled);
         }
 
         private void TimerOnElapsed(object sender, ElapsedEventArgs e)
@@ -77,7 +77,7 @@ namespace osu_trainer.Controls
             else if (_targetStars < _stars)
                 _stars -= (_stars - _targetStars) * AnimationSpeed;
 
-            updateIcon(gameMode, Enabled ? Colors.GetDifficultyColor(_stars) : Colors.Disabled);
+            updateIcon(gameMode, Enabled ? ColorConstants.GetDifficultyColor(_stars) : ColorConstants.Disabled);
 
             Invalidate(false);
         }
@@ -108,11 +108,11 @@ namespace osu_trainer.Controls
                 x -= 4;
             }
 
-            var difficultyColor = Colors.GetDifficultyColor(Stars);
+            var difficultyColor = ColorConstants.GetDifficultyColor(Stars);
             if (Stars >= 6.5)
                 difficultyColor = Color.White;
 
-            using (var textBrush = new SolidBrush(Enabled ? difficultyColor : Colors.Disabled))
+            using (var textBrush = new SolidBrush(Enabled ? difficultyColor : ColorConstants.Disabled))
             {
                 var text = $"{Stars:0.00}";
                 var rectangle = new RectangleF(4, 3, x - 4, Height - 3);

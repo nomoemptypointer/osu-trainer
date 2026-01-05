@@ -96,7 +96,6 @@ namespace osu_trainer
             this.highQualityMp3Check = new osu_trainer.Controls.OsuCheckBox();
             this.NoSpinnersCheck = new osu_trainer.Controls.OsuCheckBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.updatesCheck = new osu_trainer.Controls.OsuCheckBox();
             this.middlePanel.SuspendLayout();
             this.Middle1Panel.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -1124,7 +1123,6 @@ namespace osu_trainer
             this.extrasPanel.Controls.Add(this.NoSpinnersCheck);
             this.extrasPanel.Controls.Add(this.button1);
             this.extrasPanel.Controls.Add(this.editHotkeysButton);
-            this.extrasPanel.Controls.Add(this.updatesCheck);
             this.extrasPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.extrasPanel.Location = new System.Drawing.Point(0, 451);
             this.extrasPanel.Name = "extrasPanel";
@@ -1190,19 +1188,6 @@ namespace osu_trainer
             this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.DeleteButton_Click);
-            // 
-            // updatesCheck
-            // 
-            this.updatesCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.updatesCheck.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(134)))), ((int)(((byte)(144)))));
-            this.updatesCheck.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(154)))), ((int)(((byte)(233)))));
-            this.updatesCheck.Location = new System.Drawing.Point(251, 69);
-            this.updatesCheck.Name = "updatesCheck";
-            this.updatesCheck.Size = new System.Drawing.Size(160, 24);
-            this.updatesCheck.TabIndex = 20;
-            this.updatesCheck.Text = "Check for updates";
-            this.updatesCheck.UseVisualStyleBackColor = true;
-            this.updatesCheck.CheckedChanged += new System.EventHandler(this.updatesCheck_CheckedChanged);
             // 
             // MainForm
             // 
@@ -1303,6 +1288,5 @@ namespace osu_trainer
         private System.Windows.Forms.Panel extrasPanel;
         private System.Windows.Forms.Button button1;
         private OsuCheckBox highQualityMp3Check;
-        private OsuCheckBox updatesCheck;
     }
 }

@@ -35,7 +35,7 @@ namespace osu_trainer
         private List<OsuCheckBox> checkControls;
 
         // Hotkeys
-        private globalKeyboardHook kbhook;
+        private GlobalKeyboardHook kbhook;
         private bool hooked = true;
         private List<Keys> Hotkeys;
 
@@ -55,43 +55,26 @@ namespace osu_trainer
             InitializeComponent();
             Height = 493;
 
-            // Read version number from version.txt
-            try
-            {
-                string[] lines = File.ReadAllLines("version.txt");
-                foreach (string line in lines)
-                {
-                    string attribute = line.Split(':')[0].Trim();
-                    string value = line.Split(':')[1].Trim();
-                    if (attribute == "current version")
-                    {
-                        this.Text = $"osu trainer {value}"; // set window title
-                    }
-                }
-            }
-            catch {}
-
             // init control lists
-            dumbLabels = new List<Label>
-            {
+            dumbLabels =
+            [
                 hplabel, cslabel, arlabel, odlabel,
                 BpmMultiplierLabel, OriginalBpmLabel, NewBpmLabel
-            };
-            diffDisplays = new List<TextBox>
-            {
+            ];
+            diffDisplays =
+            [
                 HPDisplay, CSDisplay, ARDisplay, ODDisplay
-            };
-            diffSliders = new List<OptionSlider>
-            {
+            ];
+            diffSliders =
+            [
                 HPSlider, CSSlider, ARSlider, ODSlider
-            };
-            checkControls = new List<OsuCheckBox>
-            {
+            ];
+            checkControls =
+            [
                 NoSpinnersCheck, HRCheck, ScaleARCheck, ScaleODCheck, ChangePitchCheck, highQualityMp3Check
-            };
+            ];
 
-            //ApplyFonts(); // TODO: Fix fonts
-            
+            ApplyFonts();
 
             if (Directory.Exists(Settings.SongsFolder))
                 userSongsFolder = Settings.SongsFolder;
@@ -150,7 +133,7 @@ namespace osu_trainer
             // restart keyboard hook with new hotkeys
             if (kbhook != null)
                 kbhook.unhook();
-            kbhook = new globalKeyboardHook();
+            kbhook = new GlobalKeyboardHook();
             kbhook.HookedKeys = Hotkeys;
             kbhook.KeyDown += new KeyEventHandler(CreateMapHotkeyHandler);
             kbhook.KeyDown += new KeyEventHandler(ProfileHotkeyHandler);
@@ -167,7 +150,6 @@ namespace osu_trainer
                 label.Font = new Font(comforta, 10, FontStyle.Bold);
             foreach (var check in checkControls)
                 check.Font = new Font(comforta, 9, FontStyle.Bold);
-            updatesCheck.Font = new Font(comforta, 9, FontStyle.Bold);
 
             BpmMultiplierTextBox.Font = new Font(comforta, 11, FontStyle.Bold);
             OriginalBpmTextBox.Font = new Font(comforta, 10, FontStyle.Bold);
@@ -225,29 +207,28 @@ namespace osu_trainer
 
         private Image GetSongBackground(Beatmap beatmap)
         {
-            // TODO: Reimplement below this commented shit also
-            //if (string.IsNullOrWhiteSpace(beatmap.Background))
-            //    return Properties.Resources.nobg;
+            if (string.IsNullOrWhiteSpace(beatmap.Background))
+                return Resources.nobg;
 
             string imageAbsolutePath = Path.Combine(Path.GetDirectoryName(beatmap.Filename), beatmap.Background);
-            //if (!File.Exists(imageAbsolutePath))
-            //    return Properties.Resources.nobg;
+            if (!File.Exists(imageAbsolutePath))
+                return Resources.nobg;
 
             return Image.FromFile(imageAbsolutePath);
         }
 
         private void ToggleDumbLabels(object sender, EventArgs e)
         {
-            Color labelColor = Colors.PaleBlue;
+            Color labelColor = ColorConstants.PaleBlue;
             switch (editor.State)
             {
                 case EditorState.NOT_READY:
-                    labelColor = Colors.Disabled;
+                    labelColor = ColorConstants.Disabled;
                     break;
 
                 case EditorState.READY:
                 case EditorState.GENERATING_BEATMAP:
-                    labelColor = Colors.PaleBlue;
+                    labelColor = ColorConstants.PaleBlue;
                     break;
             }
 
@@ -263,17 +244,17 @@ namespace osu_trainer
                     OriginalBpmRangeTextBox.Visible = false;
                     NewBpmRangeTextBox.Visible = false;
                     NewBpmTextBox.Enabled = false;
-                    NewBpmTextBox.BackColor = Colors.Disabled;
+                    NewBpmTextBox.BackColor = ColorConstants.Disabled;
                     OriginalBpmTextBox.Enabled = false;
-                    OriginalBpmTextBox.BackColor = Colors.Disabled;
+                    OriginalBpmTextBox.BackColor = ColorConstants.Disabled;
                     break;
 
                 case EditorState.READY:
                 case EditorState.GENERATING_BEATMAP:
                     OriginalBpmTextBox.Enabled = true;
-                    OriginalBpmTextBox.BackColor = Colors.ReadOnlyBg;
+                    OriginalBpmTextBox.BackColor = ColorConstants.ReadOnlyBg;
                     NewBpmTextBox.Enabled = true;
-                    NewBpmTextBox.BackColor = Colors.TextBoxBg;
+                    NewBpmTextBox.BackColor = ColorConstants.TextBoxBg;
                     break;
             }
         }
@@ -298,11 +279,11 @@ namespace osu_trainer
                     OriginalBpmTextBox.Text = System.Math.Round(oldbpm).ToString("0");
                     NewBpmTextBox.Text = System.Math.Round(newbpm).ToString("0");
                     if (newbpm > oldbpm + 0.001M)
-                        NewBpmTextBox.ForeColor = Colors.AccentRed;
+                        NewBpmTextBox.ForeColor = ColorConstants.AccentRed;
                     else if (newbpm < oldbpm - 0.001M)
-                        NewBpmTextBox.ForeColor = Colors.Easier;
+                        NewBpmTextBox.ForeColor = ColorConstants.Easier;
                     else
-                        NewBpmTextBox.ForeColor = Colors.TextBoxFg;
+                        NewBpmTextBox.ForeColor = ColorConstants.TextBoxFg;
 
                     // bpm range
                     OriginalBpmRangeTextBox.Text = $"({System.Math.Round(oldmin).ToString("0")} - {System.Math.Round(oldmax).ToString("0")})";
@@ -345,21 +326,6 @@ namespace osu_trainer
             ODLockCheck.CheckedChanged += OdLockCheck_CheckedChanged;
             BpmLockCheck.CheckedChanged += BpmLockCheck_CheckedChanged;
         }
-        private bool isCheckForUpdatesEnabled()
-        {
-            try
-            {
-                foreach (string line in File.ReadAllLines("version.txt"))
-                {
-                    string key = line.Split(':')[0].Trim().ToLower();
-                    string value = line.Split(':')[1].Trim().ToLower();
-                    if (key == "check for updates" && new string[]{"no", "false"}.Contains(value))
-                        return false;
-                }
-            }
-            catch { return true; }
-            return true;
-        }
 
         private void UpdateCheckBoxes(object sender, EventArgs e)
         {
@@ -367,7 +333,7 @@ namespace osu_trainer
             foreach (var check in checkControls)
             {
                 check.Enabled = enabled;
-                check.ForeColor = enabled ? Colors.PaleBlue : Colors.Disabled;
+                check.ForeColor = enabled ? ColorConstants.PaleBlue : ColorConstants.Disabled;
             }
 
             // change checked state without raising any events
@@ -377,7 +343,6 @@ namespace osu_trainer
             ScaleODCheck.CheckedChanged            -= ScaleODCheck_CheckedChanged;
             ScaleARCheck.CheckedChanged            -= ScaleARCheck_CheckedChanged;
             highQualityMp3Check.CheckedChanged     -= highQualityCheckBox_CheckedChanged;
-            updatesCheck.CheckedChanged            -= updatesCheck_CheckedChanged;
 
             NoSpinnersCheck.Checked            = editor.NoSpinners;
             HRCheck.Checked                    = editor.ForceHardrockCirclesize;
@@ -385,7 +350,6 @@ namespace osu_trainer
             ScaleODCheck.Checked               = editor.ScaleOD;
             ScaleARCheck.Checked               = editor.ScaleAR;
             highQualityMp3Check.Checked        = editor.HighQualityMp3s;
-            updatesCheck.Checked               = isCheckForUpdatesEnabled();
 
             NoSpinnersCheck.CheckedChanged         += NoSpinnerCheckBox_CheckedChanged;
             HRCheck.CheckedChanged                 += HRCheck_CheckedChanged;
@@ -393,7 +357,6 @@ namespace osu_trainer
             ScaleODCheck.CheckedChanged            += ScaleODCheck_CheckedChanged;
             ScaleARCheck.CheckedChanged            += ScaleARCheck_CheckedChanged;
             highQualityMp3Check.CheckedChanged     += highQualityCheckBox_CheckedChanged;
-            updatesCheck.CheckedChanged            += updatesCheck_CheckedChanged;
         }
 
         private void ToggleHpCsArOdDisplay(object sender, EventArgs e)
@@ -401,29 +364,29 @@ namespace osu_trainer
             bool enabled = (editor.State != EditorState.NOT_READY);
             HPSlider.Enabled = enabled;
             HPDisplay.Enabled = enabled ? true : false;
-            HPDisplay.BackColor = enabled ? Colors.ReadOnlyBg : SystemColors.ControlDark;
-            HPDisplay.ForeColor = Colors.ReadOnlyFg;
+            HPDisplay.BackColor = enabled ? ColorConstants.ReadOnlyBg : SystemColors.ControlDark;
+            HPDisplay.ForeColor = ColorConstants.ReadOnlyFg;
             HPDisplay.Font = new Font(HPDisplay.Font, FontStyle.Bold);
 
             enabled = (editor.State != EditorState.NOT_READY) && (editor.GetMode() == GameMode.osu || editor.GetMode() == GameMode.CatchtheBeat);
             CSSlider.Enabled = enabled;
             CSDisplay.Enabled = enabled ? true : false;
-            CSDisplay.BackColor = enabled ? Colors.ReadOnlyBg : SystemColors.ControlDark;
-            CSDisplay.ForeColor = Colors.ReadOnlyFg;
+            CSDisplay.BackColor = enabled ? ColorConstants.ReadOnlyBg : SystemColors.ControlDark;
+            CSDisplay.ForeColor = ColorConstants.ReadOnlyFg;
             CSDisplay.Font = new Font(CSDisplay.Font, FontStyle.Bold);
 
             enabled = (editor.State != EditorState.NOT_READY) && (editor.GetMode() == GameMode.osu || editor.GetMode() == GameMode.CatchtheBeat);
             ARSlider.Enabled = enabled;
             ARDisplay.Enabled = enabled ? true : false;
-            ARDisplay.BackColor = enabled ? Colors.ReadOnlyBg : SystemColors.ControlDark;
-            ARDisplay.ForeColor = Colors.ReadOnlyFg;
+            ARDisplay.BackColor = enabled ? ColorConstants.ReadOnlyBg : SystemColors.ControlDark;
+            ARDisplay.ForeColor = ColorConstants.ReadOnlyFg;
             ARDisplay.Font = new Font(ARDisplay.Font, FontStyle.Bold);
 
             enabled = (editor.State != EditorState.NOT_READY);
             ODSlider.Enabled = enabled;
             ODDisplay.Enabled = enabled ? true : false;
-            ODDisplay.BackColor = enabled ? Colors.ReadOnlyBg : SystemColors.ControlDark;
-            ODDisplay.ForeColor = Colors.ReadOnlyFg;
+            ODDisplay.BackColor = enabled ? ColorConstants.ReadOnlyBg : SystemColors.ControlDark;
+            ODDisplay.ForeColor = ColorConstants.ReadOnlyFg;
             ODDisplay.Font = new Font(ODDisplay.Font, FontStyle.Bold);
         }
 
@@ -436,17 +399,17 @@ namespace osu_trainer
             HPSlider.Value = (decimal)newHP;
             if (newHP > originalHP)
             {
-                HPDisplay.ForeColor = Colors.AccentRed;
+                HPDisplay.ForeColor = ColorConstants.AccentRed;
                 HPDisplay.Font = new Font(HPDisplay.Font, FontStyle.Bold);
             }
             else if (newHP < originalHP)
             {
-                HPDisplay.ForeColor = Colors.Easier;
+                HPDisplay.ForeColor = ColorConstants.Easier;
                 HPDisplay.Font = new Font(HPDisplay.Font, FontStyle.Bold);
             }
             else
             {
-                HPDisplay.ForeColor = Colors.TextBoxFg;
+                HPDisplay.ForeColor = ColorConstants.TextBoxFg;
                 HPDisplay.Font = new Font(HPDisplay.Font, FontStyle.Bold);
             }
 
@@ -457,17 +420,17 @@ namespace osu_trainer
             CSSlider.Value = (decimal)newCS;
             if (newCS > originalCS)
             {
-                CSDisplay.ForeColor = Colors.AccentRed;
+                CSDisplay.ForeColor = ColorConstants.AccentRed;
                 CSDisplay.Font = new Font(CSDisplay.Font, FontStyle.Bold);
             }
             else if (newCS < originalCS)
             {
-                CSDisplay.ForeColor = Colors.Easier;
+                CSDisplay.ForeColor = ColorConstants.Easier;
                 CSDisplay.Font = new Font(CSDisplay.Font, FontStyle.Bold);
             }
             else
             {
-                CSDisplay.ForeColor = Colors.TextBoxFg;
+                CSDisplay.ForeColor = ColorConstants.TextBoxFg;
                 CSDisplay.Font = new Font(CSDisplay.Font, FontStyle.Bold);
             }
 
@@ -477,17 +440,17 @@ namespace osu_trainer
             ARSlider.Value = (decimal)newAR;
             if (newAR > editor.GetScaledAR())
             {
-                ARDisplay.ForeColor = Colors.AccentRed;
+                ARDisplay.ForeColor = ColorConstants.AccentRed;
                 ARDisplay.Font = new Font(ARDisplay.Font, FontStyle.Bold);
             }
             else if (newAR < editor.GetScaledAR())
             {
-                ARDisplay.ForeColor = Colors.Easier;
+                ARDisplay.ForeColor = ColorConstants.Easier;
                 ARDisplay.Font = new Font(ARDisplay.Font, FontStyle.Bold);
             }
             else
             {
-                ARDisplay.ForeColor = Colors.TextBoxFg;
+                ARDisplay.ForeColor = ColorConstants.TextBoxFg;
                 ARDisplay.Font = new Font(ARDisplay.Font, FontStyle.Bold);
             }
             if (newAR > 10)
@@ -503,17 +466,17 @@ namespace osu_trainer
             ODSlider.Value = (decimal)newOD;
             if (newOD > editor.GetScaledOD())
             {
-                ODDisplay.ForeColor = Colors.AccentRed;
+                ODDisplay.ForeColor = ColorConstants.AccentRed;
                 ODDisplay.Font = new Font(ODDisplay.Font, FontStyle.Bold);
             }
             else if (newOD < editor.GetScaledOD())
             {
-                ODDisplay.ForeColor = Colors.Easier;
+                ODDisplay.ForeColor = ColorConstants.Easier;
                 ODDisplay.Font = new Font(ODDisplay.Font, FontStyle.Bold);
             }
             else
             {
-                ODDisplay.ForeColor = Colors.TextBoxFg;
+                ODDisplay.ForeColor = ColorConstants.TextBoxFg;
                 ODDisplay.Font = new Font(ODDisplay.Font, FontStyle.Bold);
             }
             if (newOD > 10)
@@ -528,7 +491,7 @@ namespace osu_trainer
             bool enabled = (editor.State != EditorState.NOT_READY);
             BpmSlider.Enabled = enabled ? true : false;
             BpmMultiplierTextBox.Enabled = enabled ? true : false;
-            BpmMultiplierTextBox.BackColor = enabled ? Colors.TextBoxBg : SystemColors.ControlDark;
+            BpmMultiplierTextBox.BackColor = enabled ? ColorConstants.TextBoxBg : SystemColors.ControlDark;
         }
 
         private void UpdateDifficultyDisplay(object sender, EventArgs e)
@@ -560,13 +523,13 @@ namespace osu_trainer
                     break;
             }
             GenerateMapButton.Enabled = enabled;
-            GenerateMapButton.ForeColor = enabled ? Color.White : Colors.Disabled;
-            GenerateMapButton.Color = enabled ? Colors.AccentPink2 : Colors.TextBoxBg;
+            GenerateMapButton.ForeColor = enabled ? Color.White : ColorConstants.Disabled;
+            GenerateMapButton.Color = enabled ? ColorConstants.AccentPink2 : ColorConstants.TextBoxBg;
             GenerateMapButton.Text = editor.State == EditorState.GENERATING_BEATMAP ? "Working..." : "Create Map";
 
             ResetButton.Enabled = enabled;
-            ResetButton.ForeColor = enabled ? Color.White : Colors.Disabled;
-            ResetButton.Color = enabled ? Color.SteelBlue : Colors.TextBoxBg;
+            ResetButton.ForeColor = enabled ? Color.White : ColorConstants.Disabled;
+            ResetButton.Color = enabled ? Color.SteelBlue : ColorConstants.TextBoxBg;
         }
 
 #endregion Callbacks for updating GUI controls
@@ -677,9 +640,8 @@ namespace osu_trainer
             var k = (KeyEventArgs)e;
             if (k.Control && k.Shift && k.KeyCode == Keys.X)
             {
-                //sound.Stream = Properties.Resources.hotkey;
-                //sound.Play();
-                // TODO: Reimplement
+                sound.Stream = Resources.hotkey;
+                sound.Play();
                 GenerateMapButton_Click(sender, EventArgs.Empty);
             }
         }
@@ -743,9 +705,8 @@ namespace osu_trainer
                     // TODO: wrap with try catch
                     var osuExePath = processes[0].MainModule.FileName;
                     userSongsFolder = Path.Combine(Path.GetDirectoryName(osuExePath), "Songs");
-                    // TODO: Reimplement below
                     Settings.SongsFolder = userSongsFolder;
-                    //Properties.Settings.Default.Save();
+                    //Settings.Save(); TODO: Reimplement
                 }
             }
             osuReader.TryRead(osuReader.OsuMemoryAddresses.GeneralData);
@@ -947,9 +908,8 @@ namespace osu_trainer
                     editor.LoadProfile(whichProfile);
                     if (GenerateMapButton.Enabled)
                     {
-                        // TODO: Reimplement below
-                        //sound.Stream = Properties.Resources.hotkey;
-                        //sound.Play();
+                        sound.Stream = Resources.hotkey;
+                        sound.Play();
                         GenerateMapButton_Click(sender, EventArgs.Empty);
                     }
                 }
@@ -1028,64 +988,6 @@ namespace osu_trainer
             hotkeyForm.ShowDialog();
             Hotkeys = hotkeyForm.Hotkeys;
             ApplyHotkeys();
-        }
-
-
-        private void updatesCheck_CheckedChanged(object sender, EventArgs e)
-        {
-            ToggleCheckForUpdates();
-            UpdateCheckBoxes(this, EventArgs.Empty);
-        }
-        /// <summary>
-        /// return false on failure
-        /// </summary>
-        private void ToggleCheckForUpdates()
-        {
-            string getKey(string s) { return s.Split(':')[0].Trim().ToLower(); }
-            string getValue(string s) { return s.Split(':')[1].Trim().ToLower(); }
-
-            List<string> lines;
-            try {
-                lines = File.ReadAllLines("version.txt").ToList();
-            } catch {
-                MessageBox.Show("version.txt missing or corrupt.");
-                return;
-            }
-
-            var checkForUpdatesLineIndex = lines.FindIndex(l => getKey(l) == "check for updates");
-            if (checkForUpdatesLineIndex == -1)
-            {
-                MessageBox.Show("version.txt missing or corrupt.");
-                return;
-            }
-
-            string checkForUpdatesLine = lines[checkForUpdatesLineIndex];
-            string checkForUpdatesValue = getValue(lines[checkForUpdatesLineIndex]);
-            bool toggleToTrue = new string[] { "no", "false" }.Contains(checkForUpdatesValue);
-
-            string replacementLine = $"check for updates: {(toggleToTrue ? "true" : "false")}";
-            int replaceIndex = lines.FindIndex(l => l.Split(':')[0].Trim().ToLower() == "check for updates");
-            if (replaceIndex != -1)
-                lines[replaceIndex] = replacementLine;
-
-            try {
-                File.WriteAllLines("version.txt", lines);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                MessageBox.Show("Permission to write to version.txt was denied. Check your antivirus, or try running osu trainer with administrator priveledges.");
-                return;
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Unable to write to version.txt");
-                return;
-            }
-            return;
-        }
-
-        private void spectrogramButton_Click(object sender, EventArgs e)
-        {
         }
     }
 }

@@ -74,11 +74,11 @@ namespace osu_trainer
         private List<ConcurrentRequest> diffCalcRequests = new List<ConcurrentRequest>();
 
         // User Profiles
-        public UserProfile[] UserProfiles = {
+        public UserProfile[] UserProfiles = [
             new UserProfile("Profile 1"),
             new UserProfile("Profile 2"),
             new UserProfile("Profile 3"),
-            new UserProfile("Profile 4")};
+            new UserProfile("Profile 4")];
 
         // public getters only
         // to set, call set methods
@@ -221,7 +221,7 @@ namespace osu_trainer
                 // take note of this mp3 in a text file so we can clean it up later
                 string mp3ManifestFile = GetMp3ListFilePath();
                 List<string> manifest = File.ReadAllLines(mp3ManifestFile).ToList();
-                string beatmapFolder = Path.GetDirectoryName(exportBeatmap.Filename).Replace("" + "\\", ""); // TODO: The first empty string was probably needed
+                string beatmapFolder = Path.GetDirectoryName(exportBeatmap.Filename).Replace(Settings.SongsFolder + "\\", "");
                 string mp3RelativePath = Path.Combine(beatmapFolder, exportBeatmap.AudioFilename);
                 manifest.Add(mp3RelativePath + " | " + exportBeatmap.Filename);
                 File.WriteAllLines(mp3ManifestFile, manifest);
@@ -289,7 +289,7 @@ namespace osu_trainer
 
         private string GetMp3ListFilePath()
         {
-            string manifest = Path.Combine("", "modified_mp3_list.txt"); // TODO: The first empty string was probably needed
+            string manifest = Path.Combine(Settings.SongsFolder, "modified_mp3_list.txt");
             if (!File.Exists(manifest))
             {
                 FileStream fs = File.Open(manifest, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
@@ -302,7 +302,7 @@ namespace osu_trainer
         public List<string> GetUnusedMp3s()
         {
             // read manifest file
-            List<string> lines = new List<string>();
+            List<string> lines = [];
             string mp3ManifestFile = GetMp3ListFilePath();
 
             if (!File.Exists(mp3ManifestFile))
@@ -334,11 +334,10 @@ namespace osu_trainer
 
             // find all keys where none of the associated beatmaps exist, but the mp3 still exists
             bool noFilesExist(bool acc, string file) => acc && !File.Exists(file);
-            return lines
+            return [.. lines
                 .Select(line => parseMp3(line))
                 .Where(mp3 => mp3Dict[mp3].Aggregate(true, noFilesExist))
-                .Where(mp3 => File.Exists(JunUtils.FullPathFromSongsFolder(mp3)))
-                .ToList();
+                .Where(mp3 => File.Exists(JunUtils.FullPathFromSongsFolder(mp3)))];
         }
 
         public void CleanUpManifestFile()

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using System.Drawing.Text;
+﻿using System.Drawing.Text;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
 namespace osu_trainer
 {
@@ -14,8 +11,8 @@ namespace osu_trainer
         [STAThread]
         public static void Main()
         {
-            //AddFont(FontCollection, Properties.Resources.Comfortaa_Bold);
-            //Application.CurrentCulture = new CultureInfo("en-US", false);
+            AddFont(FontCollection, Resources.Comfortaa_Bold);
+            Application.CurrentCulture = new CultureInfo("en-US", false);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

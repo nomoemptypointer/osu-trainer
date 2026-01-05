@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing.Imaging;
 using FsBeatmapProcessor;
 
 namespace osu_trainer
@@ -27,14 +20,13 @@ namespace osu_trainer
             };
 
             Bitmap baseIcon = null;
-            //switch (mode)
-            //{
-            //    case GameMode.osu:          baseIcon = Properties.Resources.standard; break;
-            //    case GameMode.Taiko:        baseIcon = Properties.Resources.taiko;    break;
-            //    case GameMode.CatchtheBeat: baseIcon = Properties.Resources._catch;   break;
-            //    case GameMode.Mania:        baseIcon = Properties.Resources.mania;    break;
-            //}
-            // TODO: Reimplement
+            switch (mode)
+            {
+                case GameMode.osu: baseIcon = Resources.standard; break;
+                case GameMode.Taiko: baseIcon = Resources.taiko; break;
+                case GameMode.CatchtheBeat: baseIcon = Resources._catch; break;
+                case GameMode.Mania: baseIcon = Resources.mania; break;
+            }
 
             var width = baseIcon.Width + 2;
             var height = baseIcon.Height + 2;

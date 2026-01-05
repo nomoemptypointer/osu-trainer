@@ -26,7 +26,7 @@ namespace osu_trainer.Controls
             }
         }
 
-        public Color DisabledColor { get; set; } = Colors.Disabled;
+        public Color DisabledColor { get; set; } = ColorConstants.Disabled;
 
         private bool _hover;
 

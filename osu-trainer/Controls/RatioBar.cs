@@ -22,6 +22,7 @@ namespace osu_trainer.Controls
             Category("Appearance"),
             Description("Sets the color of the left bar"),
         ]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color LeftColor
         {
             get => leftColor;
@@ -42,6 +43,7 @@ namespace osu_trainer.Controls
             Category("Appearance"),
             Description("Sets the color of the right bar"),
         ]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color RightColor
         {
             get => rightColor;
@@ -80,6 +82,7 @@ namespace osu_trainer.Controls
 
         private string _leftText;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string LeftText
         {
             get => _leftText;
@@ -92,6 +95,7 @@ namespace osu_trainer.Controls
         
         private string _rightText;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string RightText
         {
             get => _rightText;

@@ -2,7 +2,7 @@ using System.Drawing;
 
 namespace osu_trainer
 {
-	public static class Colors
+	public static class ColorConstants
 	{
 		public static Color FormBg     = Color.FromArgb(38, 35, 53);
 		public static Color TextBoxBg  = Color.FromArgb(36, 24, 38);
@@ -31,7 +31,7 @@ namespace osu_trainer
 		public static Color AccentBlue   = Color.FromArgb(46, 226, 250);
 		public static Color AccentCyan   = Color.FromArgb(46, 226, 250);
 		public static Color AccentPink   = Color.FromArgb(243, 114, 185);
-		public static Color AccentPink2   = Color.FromArgb(197, 51, 131);
+		public static Color AccentPink2  = Color.FromArgb(197, 51, 131);
 
 		public static Color GetDifficultyColor(float stars)
 		{

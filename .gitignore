@@ -25,7 +25,7 @@ bld/
 [Oo]bj/
 
 # Visual Studo 2015 cache/options directory
-.vs/
+.vs
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -195,3 +195,5 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+/.vs
+.vs/osu-trainer/DesignTimeBuild/.dtbcache.v2

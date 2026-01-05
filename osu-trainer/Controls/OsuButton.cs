@@ -315,7 +315,7 @@ namespace osu_trainer.Controls
                     g.DrawString(
                         Text,
                         Font,
-                        new SolidBrush(Enabled ? ForeColor : Colors.Disabled),
+                        new SolidBrush(Enabled ? ForeColor : ColorConstants.Disabled),
                         new Rectangle(0, TextYOffset, this.Width, this.Height),
                         _format
                     );
@@ -333,7 +333,7 @@ namespace osu_trainer.Controls
                         g.DrawString(
                             Subtext,
                             new Font(this.Font.FontFamily, 7f),
-                            new SolidBrush(Enabled ? SubtextColor : Colors.Disabled),
+                            new SolidBrush(Enabled ? SubtextColor : ColorConstants.Disabled),
                             new Rectangle(0, TextYOffset + offsetY + 1, this.Width, this.Height),
                             _formatSubtext
                         );

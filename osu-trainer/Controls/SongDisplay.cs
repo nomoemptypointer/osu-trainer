@@ -52,7 +52,7 @@ namespace osu_trainer.Controls
             get => gameMode;
             set
             {
-                updateIcon(gameMode = value, Enabled ? Colors.GetDifficultyColor(_stars) : Colors.Disabled);
+                UpdateIcon(gameMode = value, Enabled ? ColorConstants.GetDifficultyColor(_stars) : ColorConstants.Disabled);
                 Invalidate(false);
             }
         }
@@ -73,7 +73,7 @@ namespace osu_trainer.Controls
             updateFonts();
             DoubleBuffered = true;
 
-            //glow = Properties.Resources.glow; TODO: Reimplement resources
+            glow = Resources.glow;
 
             _timer = new Timer()
             {
@@ -81,7 +81,7 @@ namespace osu_trainer.Controls
             };
             _timer.Elapsed += TimerOnElapsed;
 
-            updateIcon(GameMode.osu, Enabled ? Colors.GetDifficultyColor(0) : Colors.Disabled);
+            UpdateIcon(GameMode.osu, Enabled ? ColorConstants.GetDifficultyColor(0) : ColorConstants.Disabled);
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -117,7 +117,7 @@ namespace osu_trainer.Controls
             // background
             if (Cover == null)
             {
-                using (var brush = new SolidBrush(Colors.ReadOnlyBg))
+                using (var brush = new SolidBrush(ColorConstants.ReadOnlyBg))
                     e.Graphics.FillRectangle(brush, 0, 0, Width, height);
             }
             else
@@ -161,7 +161,7 @@ namespace osu_trainer.Controls
 
         private void DrawErrorMessage(Graphics graphics)
         {
-            using (var textBrush = new SolidBrush(Colors.Salmon))
+            using (var textBrush = new SolidBrush(ColorConstants.Salmon))
             {
                 var rectangle = new RectangleF(0, 0, Width, Height);
                 var format = new StringFormat()
@@ -256,14 +256,14 @@ namespace osu_trainer.Controls
                 x -= 4;
             }
 
-            var difficultyColor = Colors.GetDifficultyColor(Stars);
+            var difficultyColor = ColorConstants.GetDifficultyColor(Stars);
             if (Stars >= 6.5)
                 difficultyColor = Color.White;
 
-            using (var textBrush = new SolidBrush(Enabled ? difficultyColor : Colors.Disabled))
+            using (var textBrush = new SolidBrush(Enabled ? difficultyColor : ColorConstants.Disabled))
             {
                 var text = $"{Stars:0.00}";
-                var rectangle = new RectangleF(4, Height - 47, x - 14, Height/2 - 3);
+                var rectangle = new RectangleF(4, Height - 47, x - 14, Height / 2 - 3);
                 var format = new StringFormat
                 {
                     LineAlignment = StringAlignment.Far,
@@ -273,6 +273,7 @@ namespace osu_trainer.Controls
                 graphics.DrawString(text, _starsFont, textBrush, rectangle, format);
             }
         }
+
         private void TimerOnElapsed(object sender, ElapsedEventArgs e)
         {
             if (_stars == _targetStars)
@@ -283,14 +284,13 @@ namespace osu_trainer.Controls
             else if (_targetStars < _stars)
                 _stars -= (_stars - _targetStars) * AnimationSpeed;
 
-            updateIcon(gameMode, Enabled ? Colors.GetDifficultyColor(_stars) : Colors.Disabled);
+            UpdateIcon(gameMode, Enabled ? ColorConstants.GetDifficultyColor(_stars) : ColorConstants.Disabled);
 
             Invalidate(false);
         }
-        private void updateIcon(GameMode mode, Color color)
-        {
-            return; // TODO: Fix and remove this
 
+        private void UpdateIcon(GameMode mode, Color color)
+        {
             if (mode == _lastMode && color == _lastColor)
                 return;
 

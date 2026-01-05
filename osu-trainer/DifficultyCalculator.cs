@@ -12,12 +12,13 @@ using System.Threading.Tasks;
 
 namespace osu_trainer
 {
-    class DifficultyCalculator
+    public class DifficultyCalculator
     {
         static string tempBeatmapPath = "temp.osu";
         static Semaphore diffCalcInProgress;
 
-        static DifficultyCalculator() {
+        static DifficultyCalculator()
+        {
             diffCalcInProgress = new Semaphore(1, 1);
         }
 
@@ -28,6 +29,7 @@ namespace osu_trainer
             decimal newbpmAR = MsToApproachRate(newbpmMs);
             return JunUtils.Clamp(newbpmAR, 0, 11);
         }
+
         private static decimal ApproachRateToMs(decimal approachRate)
         {
             if (approachRate <= 5)
@@ -40,6 +42,7 @@ namespace osu_trainer
                 return 1200.0M - remainder * 150.0M;
             }
         }
+
         private static decimal MsToApproachRate(decimal ms)
         {
             decimal smallestDiff = 100000.0M; // initial value
@@ -53,6 +56,7 @@ namespace osu_trainer
             }
             return 300;
         }
+
         public static decimal CalculateMultipliedOD(Beatmap map, decimal BpmMultiplier)
         {
             decimal newbpmMs = OverallDifficultyToMs(map.OverallDifficulty) / BpmMultiplier;
@@ -61,8 +65,11 @@ namespace osu_trainer
             newbpmOD = JunUtils.Clamp(newbpmOD, 0, 11);
             return newbpmOD;
         }
+
         private static decimal OverallDifficultyToMs(decimal od) => -6.0M * od + 79.5M;
+
         private static decimal MsToOverallDifficulty(decimal ms) => (79.5M - ms) / 6.0M;
+
         public static (decimal, decimal, decimal) CalculateStarRating(Beatmap map)
         {
             if (map == null)
