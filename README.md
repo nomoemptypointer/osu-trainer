@@ -1,7 +1,7 @@
 # osu-trainer
 A program that allows you to modify the difficulty of a beatmap **very quickly and easily**.
 
-![](osu-trainer/images/gui.png)
+![](Resources/gui.png)
 
 # Download
 https://github.com/FunOrange/osu-trainer/releases/latest
