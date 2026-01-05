@@ -664,16 +664,17 @@ namespace osu_trainer
 
             // this can be cleaned up...
             // Read memory for current map
+            
             try
             {
                 IpcClient.CheckConnection();
-                osuReader.ReadBeatmap();
             }
             catch (Exception)
             {
-                Debug.Assert(false);
                 return;
             }
+            osuReader.ReadBeatmap();
+
             string beatmapFilename = osuReader.Filename;
             string beatmapFolder = osuReader.ContainingFolder;
 
