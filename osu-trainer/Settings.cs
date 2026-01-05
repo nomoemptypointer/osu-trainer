@@ -1,28 +1,40 @@
-﻿namespace osu_trainer.Properties {
-    
-    
-    // This class allows you to handle specific events on the settings class:
-    //  The SettingChanging event is raised before a setting's value is changed.
-    //  The PropertyChanged event is raised after a setting's value is changed.
-    //  The SettingsLoaded event is raised after the setting values are loaded.
-    //  The SettingsSaving event is raised before the setting values are saved.
-    public sealed partial class Settings {
-        
-        public Settings() {
-            // // To add event handlers for saving and changing settings, uncomment the lines below:
-            //
-            // this.SettingChanging += this.SettingChangingEventHandler;
-            //
-            // this.SettingsSaving += this.SettingsSavingEventHandler;
-            //
-        }
-        
-        private void SettingChangingEventHandler(object sender, System.Configuration.SettingChangingEventArgs e) {
-            // Add code to handle the SettingChangingEvent event here.
-        }
-        
-        private void SettingsSavingEventHandler(object sender, System.ComponentModel.CancelEventArgs e) {
-            // Add code to handle the SettingsSaving event here.
-        }
+﻿using System;
+using System.Windows.Forms;
+
+namespace osu_trainer
+{
+    public static class Settings
+    {
+        // Folder path
+        public static string SongsFolder = string.Empty;
+
+        // Boolean flags
+        public static bool NoSpinners = false;
+        public static bool ChangePitch = false;
+        public static bool HighARODMessageShown = false;
+        public static bool DoNotCheckForUpdates = false;
+        public static bool HPLockedState = false;
+        public static bool CSLockedState = false;
+        public static bool ARLockedState = false;
+        public static bool ODLockedState = false;
+        public static bool BpmLockedState = false;
+        public static bool HighQualityMp3s = false;
+
+        // Decimal settings
+        public static decimal LockedHPSetting = 4m;
+        public static decimal LockedCSSetting = 4m;
+        public static decimal LockedARSetting = 9m;
+        public static decimal LockedODSetting = 8m;
+        public static decimal BpmRate = 1m;
+
+        // Integer settings
+        public static int LockedBpmSetting = 200;
+
+        // Hotkeys
+        public static Keys HotkeyCreateMap = Keys.X;
+        public static Keys HotkeyProfile1 = Keys.A;
+        public static Keys HotkeyProfile2 = Keys.S;
+        public static Keys HotkeyProfile3 = Keys.D;
+        public static Keys HotkeyProfile4 = Keys.F;
     }
 }

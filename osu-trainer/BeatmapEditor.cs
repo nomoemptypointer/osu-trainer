@@ -104,27 +104,27 @@ namespace osu_trainer
             mainform = f;
 
             // Load previously saved settings
-            HpIsLocked = Properties.Settings.Default.HPLockedState;
-            CsIsLocked = Properties.Settings.Default.CSLockedState;
-            ArIsLocked = Properties.Settings.Default.ARLockedState;
-            OdIsLocked = Properties.Settings.Default.ODLockedState;
+            HpIsLocked = false;
+            CsIsLocked = Settings.CSLockedState;
+            ArIsLocked = Settings.ARLockedState;
+            OdIsLocked = Settings.ODLockedState;
             ScaleAR = ArIsLocked ? false : true;
             ScaleOD = OdIsLocked ? false : true;
 
-            lockedHP = Properties.Settings.Default.LockedHPSetting;
-            lockedCS = Properties.Settings.Default.LockedCSSetting;
-            lockedAR = Properties.Settings.Default.LockedARSetting;
-            lockedOD = Properties.Settings.Default.LockedODSetting;
+            lockedHP = Settings.LockedHPSetting;
+            lockedCS = Settings.LockedCSSetting;
+            lockedAR = Settings.LockedARSetting;
+            lockedOD = Settings.LockedODSetting;
 
-            BpmIsLocked = Properties.Settings.Default.BpmLockedState;
+            BpmIsLocked = Settings.BpmLockedState;
             if (BpmIsLocked)
-                lockedBpm = Properties.Settings.Default.LockedBpmSetting;
+                lockedBpm = Settings.LockedBpmSetting;
             else
-                BpmRate = Properties.Settings.Default.BpmRate;
+                BpmRate = Settings.BpmRate;
 
-            ChangePitch = Properties.Settings.Default.ChangePitch;
-            NoSpinners = Properties.Settings.Default.NoSpinners;
-            HighQualityMp3s = Properties.Settings.Default.HighQualityMp3s;
+            ChangePitch = false;
+            NoSpinners = false;
+            HighQualityMp3s = Settings.HighQualityMp3s;
 
             LoadProfilesFromDisk();
 
@@ -134,26 +134,26 @@ namespace osu_trainer
 
         public void SaveSettings()
         {
-            Properties.Settings.Default.LockedHPSetting = lockedHP;
-            Properties.Settings.Default.LockedCSSetting = lockedCS;
-            Properties.Settings.Default.LockedARSetting = lockedAR;
-            Properties.Settings.Default.LockedODSetting = lockedOD;
+            Settings.LockedHPSetting = lockedHP;
+            Settings.LockedCSSetting = lockedCS;
+            Settings.LockedARSetting = lockedAR;
+            Settings.LockedODSetting = lockedOD;
 
-            Properties.Settings.Default.HPLockedState = HpIsLocked;
-            Properties.Settings.Default.CSLockedState = CsIsLocked;
-            Properties.Settings.Default.ARLockedState = ArIsLocked;
-            Properties.Settings.Default.ODLockedState = OdIsLocked;
+            Settings.HPLockedState = HpIsLocked;
+            Settings.CSLockedState = CsIsLocked;
+            Settings.ARLockedState = ArIsLocked;
+            Settings.ODLockedState = OdIsLocked;
 
-            Properties.Settings.Default.BpmLockedState = BpmIsLocked;
+            Settings.BpmLockedState = BpmIsLocked;
             if (BpmIsLocked)
-                Properties.Settings.Default.LockedBpmSetting = lockedBpm;
+                Settings.LockedBpmSetting = lockedBpm;
             else
-                Properties.Settings.Default.BpmRate = BpmRate;
+                Settings.BpmRate = BpmRate;
 
-            Properties.Settings.Default.ChangePitch = ChangePitch;
-            Properties.Settings.Default.NoSpinners = NoSpinners;
-            Properties.Settings.Default.HighQualityMp3s = HighQualityMp3s;
-            Properties.Settings.Default.Save();
+            Settings.ChangePitch = ChangePitch;
+            Settings.NoSpinners = NoSpinners;
+            Settings.HighQualityMp3s = HighQualityMp3s;
+            //Settings.Save();
         }
 
         public event EventHandler StateChanged;
@@ -221,7 +221,7 @@ namespace osu_trainer
                 // take note of this mp3 in a text file so we can clean it up later
                 string mp3ManifestFile = GetMp3ListFilePath();
                 List<string> manifest = File.ReadAllLines(mp3ManifestFile).ToList();
-                string beatmapFolder = Path.GetDirectoryName(exportBeatmap.Filename).Replace(Properties.Settings.Default.SongsFolder + "\\", "");
+                string beatmapFolder = Path.GetDirectoryName(exportBeatmap.Filename).Replace("" + "\\", ""); // TODO: The first empty string was probably needed
                 string mp3RelativePath = Path.Combine(beatmapFolder, exportBeatmap.AudioFilename);
                 manifest.Add(mp3RelativePath + " | " + exportBeatmap.Filename);
                 File.WriteAllLines(mp3ManifestFile, manifest);
@@ -289,7 +289,7 @@ namespace osu_trainer
 
         private string GetMp3ListFilePath()
         {
-            string manifest = Path.Combine(Properties.Settings.Default.SongsFolder, "modified_mp3_list.txt");
+            string manifest = Path.Combine("", "modified_mp3_list.txt"); // TODO: The first empty string was probably needed
             if (!File.Exists(manifest))
             {
                 FileStream fs = File.Open(manifest, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);

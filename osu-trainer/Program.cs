@@ -14,21 +14,9 @@ namespace osu_trainer
         [STAThread]
         public static void Main()
         {
-            try
-            {
-                var updaterProc = Process.Start("updater.exe");
-                updaterProc.WaitForExit();
-            }
-            catch (Exception e)
-            {
-                // failed to update, who cares
-                Console.WriteLine("Failed to update lol");
-                Console.WriteLine(e);
-            }
+            //AddFont(FontCollection, Properties.Resources.Comfortaa_Bold);
+            //Application.CurrentCulture = new CultureInfo("en-US", false);
 
-            AddFont(FontCollection, Properties.Resources.Comfortaa_Bold);
-
-            Application.CurrentCulture = new CultureInfo("en-US", false);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());

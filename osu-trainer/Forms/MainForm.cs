@@ -90,22 +90,22 @@ namespace osu_trainer
                 NoSpinnersCheck, HRCheck, ScaleARCheck, ScaleODCheck, ChangePitchCheck, highQualityMp3Check
             };
 
-            ApplyFonts();
+            //ApplyFonts(); // TODO: Fix fonts
+            
 
-            // load user settings
-            if (Directory.Exists(Properties.Settings.Default.SongsFolder))
-                userSongsFolder = Properties.Settings.Default.SongsFolder;
+            if (Directory.Exists(Settings.SongsFolder))
+                userSongsFolder = Settings.SongsFolder;
 
             // load hotkeys
-            Hotkeys = new List<Keys>();
-            Hotkeys.Add(Properties.Settings.Default.HotkeyCreateMap);
-            Hotkeys.Add(Properties.Settings.Default.HotkeyProfile1);
-            Hotkeys.Add(Properties.Settings.Default.HotkeyProfile2);
-            Hotkeys.Add(Properties.Settings.Default.HotkeyProfile3);
-            Hotkeys.Add(Properties.Settings.Default.HotkeyProfile4);
+            Hotkeys = [];
+            Hotkeys.Add(Settings.HotkeyCreateMap);
+            Hotkeys.Add(Settings.HotkeyProfile1);
+            Hotkeys.Add(Settings.HotkeyProfile2);
+            Hotkeys.Add(Settings.HotkeyProfile3);
+            Hotkeys.Add(Settings.HotkeyProfile4);
 
             // Init object instances
-            osuReader = new StructuredOsuMemoryReader();
+            osuReader = new StructuredOsuMemoryReader(new("osu!.exe")); // TODO (mono): *REDACTED* mono should remember
             editor = new BeatmapEditor(this);
 
             // Add event handlers (observers)
@@ -225,12 +225,13 @@ namespace osu_trainer
 
         private Image GetSongBackground(Beatmap beatmap)
         {
-            if (string.IsNullOrWhiteSpace(beatmap.Background))
-                return Properties.Resources.nobg;
+            // TODO: Reimplement below this commented shit also
+            //if (string.IsNullOrWhiteSpace(beatmap.Background))
+            //    return Properties.Resources.nobg;
 
             string imageAbsolutePath = Path.Combine(Path.GetDirectoryName(beatmap.Filename), beatmap.Background);
-            if (!File.Exists(imageAbsolutePath))
-                return Properties.Resources.nobg;
+            //if (!File.Exists(imageAbsolutePath))
+            //    return Properties.Resources.nobg;
 
             return Image.FromFile(imageAbsolutePath);
         }
@@ -657,11 +658,11 @@ namespace osu_trainer
 
         private void GenerateMapButton_Click(object sender, EventArgs e)
         {
-            if ( !Properties.Settings.Default.HighARODMessageShown && (editor.NewBeatmap.ApproachRate > 10M || editor.NewBeatmap.ApproachRate > 10M) )
+            if ( !Settings.HighARODMessageShown && (editor.NewBeatmap.ApproachRate > 10M || editor.NewBeatmap.ApproachRate > 10M) )
             {
                 MessageBox.Show("You have chosen an AR or OD greater than 10. After this map gets created, make sure to play it with Doubletime.", "Note");
-                Properties.Settings.Default.HighARODMessageShown = true;
-                Properties.Settings.Default.Save();
+                Settings.HighARODMessageShown = true;
+                //Settings.Save(); TODO: Reimplement
             }
             BackgroundWorker.RunWorkerAsync();
         }
@@ -676,8 +677,9 @@ namespace osu_trainer
             var k = (KeyEventArgs)e;
             if (k.Control && k.Shift && k.KeyCode == Keys.X)
             {
-                sound.Stream = Properties.Resources.hotkey;
-                sound.Play();
+                //sound.Stream = Properties.Resources.hotkey;
+                //sound.Play();
+                // TODO: Reimplement
                 GenerateMapButton_Click(sender, EventArgs.Empty);
             }
         }
@@ -741,8 +743,9 @@ namespace osu_trainer
                     // TODO: wrap with try catch
                     var osuExePath = processes[0].MainModule.FileName;
                     userSongsFolder = Path.Combine(Path.GetDirectoryName(osuExePath), "Songs");
-                    Properties.Settings.Default.SongsFolder = userSongsFolder;
-                    Properties.Settings.Default.Save();
+                    // TODO: Reimplement below
+                    Settings.SongsFolder = userSongsFolder;
+                    //Properties.Settings.Default.Save();
                 }
             }
             osuReader.TryRead(osuReader.OsuMemoryAddresses.GeneralData);
@@ -859,8 +862,9 @@ namespace osu_trainer
                     return;
                 }
                 userSongsFolder = songsFolderForm.SongsFolder.TrimEnd(Path.DirectorySeparatorChar);
-                Properties.Settings.Default.SongsFolder = userSongsFolder;
-                Properties.Settings.Default.Save();
+                Settings.SongsFolder = userSongsFolder;
+                // TODO: Reimplement
+                //Properties.Settings.Default.Save();
             }
         }
 
@@ -869,12 +873,13 @@ namespace osu_trainer
             editor.SaveSettings();
             editor.SaveProfilesToDisk();
             // save hotkeys
-            Properties.Settings.Default.HotkeyCreateMap = Hotkeys[0];
-            Properties.Settings.Default.HotkeyProfile1 = Hotkeys[1];
-            Properties.Settings.Default.HotkeyProfile2 = Hotkeys[2];
-            Properties.Settings.Default.HotkeyProfile3 = Hotkeys[3];
-            Properties.Settings.Default.HotkeyProfile4 = Hotkeys[4];
-            Properties.Settings.Default.Save();
+            Settings.HotkeyCreateMap = Hotkeys[0];
+            Settings.HotkeyProfile1 = Hotkeys[1];
+            Settings.HotkeyProfile2 = Hotkeys[2];
+            Settings.HotkeyProfile3 = Hotkeys[3];
+            Settings.HotkeyProfile4 = Hotkeys[4];
+            // TODO: Reimplement
+            //Settings.Default.Save();
         }
 
 #region User Profile Buttons
@@ -942,16 +947,18 @@ namespace osu_trainer
                     editor.LoadProfile(whichProfile);
                     if (GenerateMapButton.Enabled)
                     {
-                        sound.Stream = Properties.Resources.hotkey;
-                        sound.Play();
+                        // TODO: Reimplement below
+                        //sound.Stream = Properties.Resources.hotkey;
+                        //sound.Play();
                         GenerateMapButton_Click(sender, EventArgs.Empty);
                     }
                 }
             }
         }
 
-        private List<decimal> saveButtonHighlight = new List<decimal>() { 0, 0, 0, 0 };
+        private List<decimal> saveButtonHighlight = [0, 0, 0, 0];
         const decimal HIGHLIGHT_FADE = 0.03M;
+
         private void formAnimationTimer_Tick(object sender, EventArgs e)
         {
             Color startBackColor = Color.FromArgb(71, 115, 66);

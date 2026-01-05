@@ -24,7 +24,7 @@ namespace osu_trainer
             return steps * step;
         }
 
-        public static string FullPathFromSongsFolder(string path) => Path.Combine(Properties.Settings.Default.SongsFolder, path);
+        public static string FullPathFromSongsFolder(string path) => Path.Combine(Settings.SongsFolder, path);
 
         public static string NormalizeText(string str)
         {

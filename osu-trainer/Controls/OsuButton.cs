@@ -6,6 +6,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace osu_trainer.Controls
 {
@@ -44,36 +45,41 @@ namespace osu_trainer.Controls
 
         [Description("How dark and light the colors based of the " + nameof(Color) + " property should be.")]
         [RefreshProperties(RefreshProperties.Repaint)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public float BrightnessRange { get; set; } = 0.01f;
 
         [Description("How many triangles should be visible at all times.")]
         [RefreshProperties(RefreshProperties.Repaint)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int TriangleCount { get; set; } = 30;
 
         [RefreshProperties(RefreshProperties.Repaint)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Subtext { get; set; } = "";
 
         private Color _color = Color.Transparent;
 
         [RefreshProperties(RefreshProperties.Repaint)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color Color
         {
             get => _color;
             set => _brushes = GenerateColors(_color = value);
         }
 
-        [
-            RefreshProperties(RefreshProperties.Repaint),
-            Description("Adjusts the vertical position of the text")
-        ]
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [Description("Adjusts the vertical position of the text")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int TextYOffset { get; set; } = 0;
 
         [RefreshProperties(RefreshProperties.Repaint)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color SubtextColor { get; set; }
 
         private Color _progressColor = Color.Transparent;
 
         [RefreshProperties(RefreshProperties.Repaint)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color ProgressColor
         {
             get => _progressColor;
@@ -82,6 +88,7 @@ namespace osu_trainer.Controls
 
         private float progress;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public float Progress
         {
             get => progress;

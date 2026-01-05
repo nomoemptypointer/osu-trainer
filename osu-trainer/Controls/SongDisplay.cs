@@ -6,6 +6,7 @@ using System.Drawing.Text;
 using System.Timers;
 using System.Windows.Forms;
 using Timer = System.Timers.Timer;
+using System.ComponentModel;
 
 namespace osu_trainer.Controls
 {
@@ -16,17 +17,23 @@ namespace osu_trainer.Controls
         private Font _titleFont;
         private Font _starsFont;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Artist { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Title { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Difficulty { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string ErrorMessage { get; set; }
 
         #region Star rating display
         private float _stars;
         private float _targetStars;
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public float Stars
         {
             get => _stars;
@@ -38,6 +45,8 @@ namespace osu_trainer.Controls
             }
         }
         private GameMode gameMode = GameMode.osu;
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public GameMode GameMode
         {
             get => gameMode;
@@ -64,7 +73,7 @@ namespace osu_trainer.Controls
             updateFonts();
             DoubleBuffered = true;
 
-            glow = Properties.Resources.glow;
+            //glow = Properties.Resources.glow; TODO: Reimplement resources
 
             _timer = new Timer()
             {
@@ -75,6 +84,7 @@ namespace osu_trainer.Controls
             updateIcon(GameMode.osu, Enabled ? Colors.GetDifficultyColor(0) : Colors.Disabled);
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Image Cover
         {
             get => _cover;
@@ -279,6 +289,8 @@ namespace osu_trainer.Controls
         }
         private void updateIcon(GameMode mode, Color color)
         {
+            return; // TODO: Fix and remove this
+
             if (mode == _lastMode && color == _lastColor)
                 return;
 

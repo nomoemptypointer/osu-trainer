@@ -9,6 +9,7 @@ using System.Timers;
 using System.Windows.Forms;
 using FsBeatmapProcessor;
 using Timer = System.Timers.Timer;
+using System.ComponentModel;
 
 namespace osu_trainer.Controls
 {
@@ -17,6 +18,7 @@ namespace osu_trainer.Controls
         private float _stars;
         private float _targetStars;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public float Stars
         {
             get => _stars;
@@ -30,6 +32,7 @@ namespace osu_trainer.Controls
 
         private GameMode gameMode = GameMode.osu;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public GameMode GameMode
         {
             get => gameMode;
@@ -53,7 +56,7 @@ namespace osu_trainer.Controls
         {
             DoubleBuffered = true;
 
-            glow = Properties.Resources.glow;
+            //glow = Properties.Resources.glow; TODO: Reimplement resouces
 
             _timer = new Timer()
             {

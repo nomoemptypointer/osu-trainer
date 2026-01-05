@@ -1,6 +1,6 @@
-using System;
-using System.Drawing;
 using System.Timers;
+using Timer = System.Timers.Timer;
+using System.ComponentModel;
 
 namespace osu_trainer.Controls
 {
@@ -52,19 +52,22 @@ namespace osu_trainer.Controls
 			}
 		}
 
-		public new Color LeftColor
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new Color LeftColor
 		{
 			get => _targetLeftColor;
 			set => _targetLeftColor = value;
 		}
 
-		public new int LeftPercent
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new int LeftPercent
 		{
 			get => _targetLeftPercent;
 			set => _targetLeftPercent = value;
 		}
 
-		public new Color RightColor
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new Color RightColor
 		{
 			get => _targetRightColor;
 			set => _targetRightColor = value;
