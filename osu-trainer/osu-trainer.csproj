@@ -6,6 +6,7 @@
         <CETCompat>false</CETCompat>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWindowsForms>true</UseWindowsForms>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
   
     <ItemGroup>
@@ -22,6 +23,15 @@
   
     <ItemGroup>
       <ProjectReference Include="..\FsBeatmapParser\FsBeatmapProcessor.fsproj" />
+    </ItemGroup>
+  
+    <ItemGroup>
+      <Reference Include="EditorReader">
+        <HintPath>..\vendor\EditorReader.dll</HintPath>
+      </Reference>
+      <Reference Include="MTIPC">
+        <HintPath>..\vendor\MTIPC.dll</HintPath>
+      </Reference>
     </ItemGroup>
   
     <ItemGroup>

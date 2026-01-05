@@ -1,4 +1,6 @@
-﻿using FsBeatmapProcessor;
+﻿using Editor_Reader;
+using FsBeatmapProcessor;
+using MTIPC;
 using osu_trainer.Controls;
 using osu_trainer.Forms;
 using OsuMemoryDataProvider;
@@ -28,7 +30,8 @@ namespace osu_trainer
         // Beatmap
         private string userSongsFolder = null;
 
-        private StructuredOsuMemoryReader osuReader;
+        //private StructuredOsuMemoryReader osuReader;
+        private EditorReader osuReader;
 
         // Common Control Lists
         private List<Label> dumbLabels;
@@ -91,7 +94,8 @@ namespace osu_trainer
             Hotkeys.Add(Settings.HotkeyProfile4);
 
             // Init object instances
-            osuReader = new StructuredOsuMemoryReader(new("osu!")); // TODO (mono): *REDACTED* mono should remember
+            //osuReader = new StructuredOsuMemoryReader(new("osu!"));
+            osuReader = new();
             editor = new BeatmapEditor(this);
 
             // Add event handlers (observers)
@@ -660,9 +664,19 @@ namespace osu_trainer
 
             // this can be cleaned up...
             // Read memory for current map
-            osuReader.TryRead(osuReader.OsuMemoryAddresses.Beatmap);
-            string beatmapFilename = osuReader.OsuMemoryAddresses.Beatmap.OsuFileName;
-            string beatmapFolder = osuReader.OsuMemoryAddresses.Beatmap.FolderName;
+            try
+            {
+                IpcClient.CheckConnection();
+                osuReader.ReadBeatmap();
+            }
+            catch (Exception)
+            {
+                Debug.Assert(false);
+                return;
+            }
+            string beatmapFilename = osuReader.Filename;
+            string beatmapFolder = osuReader.ContainingFolder;
+
 
             var invalidChars = Path.GetInvalidPathChars();
 
@@ -712,13 +726,13 @@ namespace osu_trainer
                     //Settings.Save(); TODO: Reimplement
                 }
             }
-            osuReader.TryRead(osuReader.OsuMemoryAddresses.GeneralData);
-            OsuMemoryStatus status = (OsuMemoryStatus)(osuReader.OsuMemoryAddresses.GeneralData.OsuStatus);
+            //osuReader.TryRead(osuReader.OsuMemoryAddresses.GeneralData);
+            //OsuMemoryStatus status = (OsuMemoryStatus)(osuReader.OsuMemoryAddresses.GeneralData.OsuStatus);
 
-            if (status == OsuMemoryStatus.SongSelect || status == OsuMemoryStatus.MultiplayerRoom || status == OsuMemoryStatus.MultiplayerSongSelect)
+            //if (status == OsuMemoryStatus.SongSelect || status == OsuMemoryStatus.MultiplayerRoom || status == OsuMemoryStatus.MultiplayerSongSelect)
                 mapSelectScreen = true;
-            else
-                mapSelectScreen = false;
+            //else
+            //    mapSelectScreen = false;
 
             if (mapSelectScreen && !hooked)
             {
